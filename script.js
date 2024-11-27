@@ -13,4 +13,35 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  const popup = document.getElementById("exit-popup");
+  const stayButton = document.getElementById("stay-btn");
+  let popupShown = false;
+
+  const showPopup = () => {
+    if (!popupShown) {
+      popup.classList.add("show");
+      popupShown = true;
+    }
+  };
+
+  stayButton.addEventListener("click", () => {
+    popup.classList.remove("show");
+  });
+
+  // closing the tab
+  window.addEventListener("beforeunload", (event) => {
+    showPopup();
+    event.preventDefault();
+    event.returnValue = ""; // Required for some browsers
+  });
+
+  // typing in search bar
+  window.addEventListener("blur", () => {
+    setTimeout(() => {
+      if (document.activeElement === document.body) {
+        showPopup();
+      }
+    }, 100);
+  });
 });
